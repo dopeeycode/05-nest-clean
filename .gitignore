@@ -18,6 +18,9 @@ lerna-debug.log*
 /coverage
 /.nyc_output
 
+# Prisma
+/prisma/generated/*
+
 # IDEs and editors
 /.idea
 .project
@@ -34,4 +37,8 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Env
+.env
+
+# Docker
 data
