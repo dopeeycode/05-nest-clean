@@ -1,9 +1,9 @@
-import { AppModule } from "@/app.module"
+import { AppModule } from '@/app.module'
 import { Test } from '@nestjs/testing'
-import type { INestApplication } from "@nestjs/common"
-import request from "supertest"
-import { PrismaService } from "@/prisma/prisma.service"
-import { JwtService } from "@nestjs/jwt"
+import type { INestApplication } from '@nestjs/common'
+import request from 'supertest'
+import { PrismaService } from '@/prisma/prisma.service'
+import { JwtService } from '@nestjs/jwt'
 
 describe('Fetch Recent Questions (E2E)', () => {
   let app: INestApplication
@@ -17,12 +17,10 @@ describe('Fetch Recent Questions (E2E)', () => {
 
     app = moduleRef.createNestApplication()
 
-    prisma = moduleRef.get<PrismaService>(PrismaService)  
+    prisma = moduleRef.get<PrismaService>(PrismaService)
     jwt = moduleRef.get<JwtService>(JwtService)
 
     await app.init()
-
-
   })
 
   test('[GET] /questions', async () => {
@@ -30,11 +28,11 @@ describe('Fetch Recent Questions (E2E)', () => {
       data: {
         name: 'John Doe',
         email: 'john.doe@example.com',
-        password: 'password123'
-      }
+        password: 'password123',
+      },
     })
 
-    const access_token = jwt.sign({ sub: user.id })
+    const accessToken = jwt.sign({ sub: user.id })
 
     await prisma.question.createMany({
       data: [
@@ -42,28 +40,28 @@ describe('Fetch Recent Questions (E2E)', () => {
           title: 'Question 1',
           content: 'Content of question 1',
           slug: 'question-1',
-          authorId: user.id
+          authorId: user.id,
         },
         {
           title: 'Question 2',
           content: 'Content of question 2',
           slug: 'question-2',
-          authorId: user.id
-        }
-      ]
+          authorId: user.id,
+        },
+      ],
     })
 
     const response = await request(app.getHttpServer())
       .get('/questions')
-      .set('Authorization', `Bearer ${access_token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual({
       questions: [
         expect.objectContaining({ title: 'Question 1' }),
-        expect.objectContaining({ title: 'Question 2' })
-      ]
+        expect.objectContaining({ title: 'Question 2' }),
+      ],
     })
   })
 })

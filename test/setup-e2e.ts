@@ -5,7 +5,6 @@ import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from 'prisma/generated/prisma/client'
 import { randomUUID } from 'node:crypto'
 
-
 const databaseURL = process.env.DATABASE_URL as string
 const schema = new URL(databaseURL).searchParams.get('schema')
 
@@ -28,7 +27,6 @@ function generateUniqueDatabaseURL(schemaId: string): string {
 }
 
 const schemaId = randomUUID()
-
 
 beforeAll(async () => {
   const databaseURL = generateUniqueDatabaseURL(schemaId)

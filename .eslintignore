@@ -1,2 +1,8 @@
-node_modules
-dist
+# Ignore runtime / data folders
+data/
+# Ignore generated and dependency folders
+node_modules/
+generated/
+.prisma/
+# VSCode
+.vscode/

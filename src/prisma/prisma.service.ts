@@ -7,8 +7,9 @@ import type { Env } from '@/env'
 @Injectable()
 export class PrismaService
   extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy {
-    constructor() {
+  implements OnModuleInit, OnModuleDestroy
+{
+  constructor() {
     const configService = new ConfigService<Env, true>()
 
     const databaseURL = configService.get<string>('DATABASE_URL')
@@ -24,6 +25,7 @@ export class PrismaService
       log: ['warn', 'error'],
     })
   }
+
   onModuleInit() {
     return this.$connect()
   }

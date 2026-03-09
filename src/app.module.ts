@@ -9,19 +9,19 @@ import { CreateQuestionController } from './controllers/create-question.controll
 import { FetchRecentQuestionsController } from './controllers/fetch-recent-questions.controller'
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    validate: env => envSchema.parse(env),
-    isGlobal: true,
-  }),
-  AuthModule
-],
+  imports: [
+    ConfigModule.forRoot({
+      validate: (env) => envSchema.parse(env),
+      isGlobal: true,
+    }),
+    AuthModule,
+  ],
   controllers: [
-    CreateAccountController, 
-    AuthenticateController, 
+    CreateAccountController,
+    AuthenticateController,
     CreateQuestionController,
-    FetchRecentQuestionsController
+    FetchRecentQuestionsController,
   ],
   providers: [PrismaService],
 })
-
 export class AppModule {}
