@@ -1,4 +1,15 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm tsc --noEmit && pnpm run lint && pnpm run test
+echo "🚀 [pre-push] Iniciando verificações antes do push..."
+echo ""
+
+echo "🔷 [pre-push] Verificando tipos TypeScript..."
+pnpm tsc --noEmit || exit 1
+
+echo ""
+echo "🧪 [pre-push] Executando testes unitários..."
+pnpm run test || exit 1
+
+echo ""
+echo "✅ [pre-push] Tudo certo! Push liberado."

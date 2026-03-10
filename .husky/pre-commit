@@ -1,4 +1,33 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm tsc --noEmit && pnpm run lint && pnpm run test
+echo "🔍 [pre-commit] Verificando console.log não permitidos..."
+
+# Busca arquivos staged (adicionados ou modificados) com extensão .ts
+STAGED_TS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.ts$' || true)
+
+if [ -n "$STAGED_TS_FILES" ]; then
+  CONSOLE_LOG_FOUND=$(echo "$STAGED_TS_FILES" | xargs grep -n "console\.log" 2>/dev/null || true)
+
+  if [ -n "$CONSOLE_LOG_FOUND" ]; then
+    echo ""
+    echo "❌ [pre-commit] console.log encontrado! Remova antes de commitar:"
+    echo ""
+    echo "$CONSOLE_LOG_FOUND"
+    echo ""
+    exit 1
+  fi
+fi
+
+echo "✅ [pre-commit] Nenhum console.log encontrado."
+echo ""
+
+echo "🔷 [pre-commit] Verificando tipos TypeScript..."
+pnpm tsc --noEmit || exit 1
+
+echo ""
+echo "🔶 [pre-commit] Executando lint..."
+pnpm run lint || exit 1
+
+echo ""
+echo "✅ [pre-commit] Tudo certo! Commit liberado."
