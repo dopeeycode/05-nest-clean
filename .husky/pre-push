@@ -12,4 +12,8 @@ echo "🧪 [pre-push] Executando testes unitários..."
 pnpm run test || exit 1
 
 echo ""
+echo "🧪 [pre-push] Executando testes e2e..."
+pnpm run test:e2e || exit 1
+
+echo ""
 echo "✅ [pre-push] Tudo certo! Push liberado."
