@@ -9,6 +9,8 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
+    "prepare": "husky install",
+    "postinstall": "husky install && husky add .husky/pre-commit 'pnpm tsc --noEmit && pnpm run lint && pnpm run test' && husky add .husky/pre-push 'pnpm tsc --noEmit && pnpm run lint && pnpm run test'",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -60,5 +62,7 @@
     "unplugin-swc": "^1.5.9",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.0.18"
+    ,
+    "husky": "^8.0.0"
   }
 }
